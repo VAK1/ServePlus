@@ -4,6 +4,12 @@
 //
 //  Created by Vikram Khandelwal on 8/4/21.
 //
+//  View controller class for displaying all of the practice sessions
+//  the user has built up over time. This view controller helps the user
+//  review metadata about their practice sessions (e.g. date, practice
+//  length, number of serves), and also allows them to review scores
+//  for their individual serves by segueing to the Feedback Controller.
+
 
 import UIKit
 import AVFoundation
@@ -11,30 +17,31 @@ import Foundation
 import CoreGraphics
 
 class MiddlePracticeViewController: UIViewController {
-
+    
+    
+    /* context helps this controller link to the app's data model to retrieve
+       and update the user's practices. */
     let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
+    
+    /* boolean indicating whether or not this is the final build. If false, the
+       tutorial will launch on every run. */
     let productionMode = true
 
+    /* defaults are used to store whether or not the user is launching the app
+       for the first time. */
     let defaults = UserDefaults.standard
 
-    var practices:[Practice]?
-    var dateLabels:[String]?
-    var serveLabels:[String]?
-    var durationLabels:[String]?
-    var bestLabels:[String]?
-    var worstLabels:[String]?
-    var thumbnails:[UIImage]?
-    let iconNames: [String] = [
-                               "Back Arch",
-                               "Feet Spacing",
-                               "Back Leg Kicking Back",
-                               "Jump Height",
-                               "Straight Left Arm",
-                               "Bending Legs",
-                               "Timing of Shoulder Turn",
-                               "Height of Ball Toss",
-                               ]
-    var urls: [URL]?
+    
+    var practices:[Practice]?       // Array to store the user's practices.
+    var dateLabels:[String]?        // Array to store the dates of all practices.
+    var serveLabels:[String]?       // Array to store labels that indicate the number
+                                    // of serves in a practice.
+    var durationLabels:[String]?    // Array to store labels that indicate the
+                                    // duration of a practice.
+
+    var thumbnails:[UIImage]?       // Array to store the thumbnails of every
+                                    // practice.
+ 
     var timestamps: [[Int]]?
     var vectors: [[Double]]?
     
@@ -208,8 +215,6 @@ class MiddlePracticeViewController: UIViewController {
             var dateLabels:[String] = []
             var serveLabels:[String] = []
             var durationLabels:[String] = []
-            var bestLabels:[String] = []
-            var worstLabels:[String] = []
             var imgs:[UIImage] = []
             
             for practice in self.practices! {
@@ -281,16 +286,10 @@ class MiddlePracticeViewController: UIViewController {
                     finals[6] += (2.0 - Double(abs(2-vector[6])))/(count*2.0)
                     finals[7] += (2.0 - Double(abs(2-vector[7])))/(count*2.0)
                 }
-                let minIndex = zip(finals.indices, finals).min(by: { $0.1 < $1.1 })?.0
-                let maxIndex = zip(finals.indices, finals).max(by: { $0.1 < $1.1 })?.0
-                bestLabels.append("Best part: " + String(self.iconNames[maxIndex!]))
-                worstLabels.append("Worst part: " + String(self.iconNames[minIndex!]))
             }
             self.dateLabels = dateLabels
             self.serveLabels = serveLabels
             self.durationLabels = durationLabels
-            self.bestLabels = bestLabels
-            self.worstLabels = worstLabels
             self.thumbnails = imgs
         } catch {
             
