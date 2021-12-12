@@ -25,7 +25,7 @@ class MiddlePracticeViewController: UIViewController {
     
     /* boolean indicating whether or not this is the final build. If false, the
        tutorial will launch on every run. */
-    let productionMode = true
+    let productionMode = false
 
     /* defaults are used to store whether or not the user is launching the app
        for the first time. */
