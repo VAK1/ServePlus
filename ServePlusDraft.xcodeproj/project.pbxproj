@@ -46,8 +46,8 @@
 		7DA9A6F4265A239A00ED17E8 /* Feedback.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7DA9A6F3265A239A00ED17E8 /* Feedback.storyboard */; };
 		7DA9A6FE265A267E00ED17E8 /* FeedbackController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7DA9A6FD265A267E00ED17E8 /* FeedbackController.swift */; };
 		7DB1A3C426E26DCD00E21A00 /* ServeBoxImg.png in Resources */ = {isa = PBXBuildFile; fileRef = 7DB1A3C326E26DCD00E21A00 /* ServeBoxImg.png */; };
-		7DD559BA26C437780068BA97 /* Charts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7DD559B726C437350068BA97 /* Charts.framework */; };
-		7DD559BB26C437780068BA97 /* Charts.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 7DD559B726C437350068BA97 /* Charts.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		7DC77F7227654159007C2AC6 /* Charts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7DD559B726C437350068BA97 /* Charts.framework */; };
+		7DC77F7327654159007C2AC6 /* Charts.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 7DD559B726C437350068BA97 /* Charts.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		7DE98D5925E0332E00E333DD /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7DE98D5825E0332E00E333DD /* AppDelegate.swift */; };
 		7DE98D5B25E0332E00E333DD /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7DE98D5A25E0332E00E333DD /* SceneDelegate.swift */; };
 		7DE98D5D25E0332E00E333DD /* CameraViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7DE98D5C25E0332E00E333DD /* CameraViewController.swift */; };
@@ -75,13 +75,13 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
-		7DD559AE26C434890068BA97 /* Embed Frameworks */ = {
+		7DC77F7427654159007C2AC6 /* Embed Frameworks */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				7DD559BB26C437780068BA97 /* Charts.framework in Embed Frameworks */,
+				7DC77F7327654159007C2AC6 /* Charts.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -146,7 +146,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				7DD559BA26C437780068BA97 /* Charts.framework in Frameworks */,
+				7DC77F7227654159007C2AC6 /* Charts.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -316,7 +316,7 @@
 				7DE98D5125E0332E00E333DD /* Sources */,
 				7DE98D5225E0332E00E333DD /* Frameworks */,
 				7DE98D5325E0332E00E333DD /* Resources */,
-				7DD559AE26C434890068BA97 /* Embed Frameworks */,
+				7DC77F7427654159007C2AC6 /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
@@ -620,6 +620,7 @@
 				);
 				MARKETING_VERSION = 3.0.2;
 				ONLY_ACTIVE_ARCH = YES;
+				OTHER_CODE_SIGN_FLAGS = "--generate-entitlement-der";
 				PRODUCT_BUNDLE_IDENTIFIER = VKhandelwal.ServePlus;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "ServePlusDraft-Bridging-Header.h";
@@ -650,6 +651,7 @@
 				);
 				MARKETING_VERSION = 3.0.2;
 				ONLY_ACTIVE_ARCH = YES;
+				OTHER_CODE_SIGN_FLAGS = "--generate-entitlement-der";
 				PRODUCT_BUNDLE_IDENTIFIER = VikramKhandelwal.ServePlus;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "ServePlusDraft-Bridging-Header.h";
