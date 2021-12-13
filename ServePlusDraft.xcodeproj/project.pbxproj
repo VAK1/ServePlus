@@ -38,7 +38,6 @@
 		7D89A9812712A2C500F5D4E3 /* BundleType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D89A9802712A2C500F5D4E3 /* BundleType.swift */; };
 		7D89A9832712A3B100F5D4E3 /* UIApplication+AppStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D89A9822712A3B100F5D4E3 /* UIApplication+AppStore.swift */; };
 		7D89A9852712A63300F5D4E3 /* UIAlertController+AppManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D89A9842712A63200F5D4E3 /* UIAlertController+AppManager.swift */; };
-		7D89A9872712A65000F5D4E3 /* TestHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D89A9862712A65000F5D4E3 /* TestHelper.swift */; };
 		7DA9A6E8265A1A3A00ED17E8 /* CustomPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7DA9A6E7265A1A3A00ED17E8 /* CustomPageViewController.swift */; };
 		7DA9A6EB265A1A4300ED17E8 /* PlayerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7DA9A6EA265A1A4300ED17E8 /* PlayerView.swift */; };
 		7DA9A6EE265A1A5B00ED17E8 /* DataViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7DA9A6ED265A1A5B00ED17E8 /* DataViewController.swift */; };
@@ -121,7 +120,6 @@
 		7D89A9802712A2C500F5D4E3 /* BundleType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BundleType.swift; sourceTree = "<group>"; };
 		7D89A9822712A3B100F5D4E3 /* UIApplication+AppStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIApplication+AppStore.swift"; sourceTree = "<group>"; };
 		7D89A9842712A63200F5D4E3 /* UIAlertController+AppManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIAlertController+AppManager.swift"; sourceTree = "<group>"; };
-		7D89A9862712A65000F5D4E3 /* TestHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestHelper.swift; sourceTree = "<group>"; };
 		7DA9A6E7265A1A3A00ED17E8 /* CustomPageViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomPageViewController.swift; sourceTree = "<group>"; };
 		7DA9A6EA265A1A4300ED17E8 /* PlayerView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlayerView.swift; sourceTree = "<group>"; };
 		7DA9A6ED265A1A5B00ED17E8 /* DataViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataViewController.swift; sourceTree = "<group>"; };
@@ -236,7 +234,6 @@
 				7D89A9802712A2C500F5D4E3 /* BundleType.swift */,
 				7D89A9822712A3B100F5D4E3 /* UIApplication+AppStore.swift */,
 				7D89A9842712A63200F5D4E3 /* UIAlertController+AppManager.swift */,
-				7D89A9862712A65000F5D4E3 /* TestHelper.swift */,
 			);
 			path = "Update Managers";
 			sourceTree = "<group>";
@@ -427,7 +424,6 @@
 				7DA9A6EB265A1A4300ED17E8 /* PlayerView.swift in Sources */,
 				7D5A50F8270D2CF300DCF1F8 /* OnboardingController.swift in Sources */,
 				7DA9A6E8265A1A3A00ED17E8 /* CustomPageViewController.swift in Sources */,
-				7D89A9872712A65000F5D4E3 /* TestHelper.swift in Sources */,
 				7D58180026BE153F00AB2010 /* ServeAnalysisViewController.swift in Sources */,
 				7D55F6DF25E74DE700BC7B87 /* Labels.swift in Sources */,
 				7D89A97F2712A24E00F5D4E3 /* AppUpdateManager.swift in Sources */,
