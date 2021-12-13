@@ -559,13 +559,9 @@ class Common {
         return image
     }
     
-    func resizeImage(image: UIImage, size: CGSize, keepAspectRatio: Bool = false, useToMakeVideo: Bool = false) -> UIImage {
-        var targetSize: CGSize = size
+    func resizeImage(image: UIImage, size: CGSize, keepAspectRatio: Bool = false) -> UIImage {
         
-        if useToMakeVideo {
-            let resizeRate: CGFloat = CGFloat(Int(image.size.width) / 16) * 16 / image.size.width
-            targetSize = CGSize(width: image.size.width * resizeRate, height: image.size.height * resizeRate)
-        }
+        var targetSize: CGSize = size
         
         var newSize: CGSize = targetSize
         var newPoint: CGPoint = CGPoint(x: 0, y: 0)
