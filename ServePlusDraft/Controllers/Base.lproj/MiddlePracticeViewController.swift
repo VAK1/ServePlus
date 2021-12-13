@@ -191,8 +191,6 @@ class MiddlePracticeViewController: UIViewController {
         
         // Segue to the onboarding controller
         if segue.identifier == "OnboardingSegue" {
-            if let destinationVC = segue.destination as? OnboardingController {
-            }
         }
     }
     
@@ -454,10 +452,6 @@ extension MiddlePracticeViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         /* Return a table cell for every practice in the database */
-        
-        
-        // Fetch the video URL
-        let vidUrl = self.practices![indexPath.row].urls![0]
         
         
         // Fetch the practice thumbnail
