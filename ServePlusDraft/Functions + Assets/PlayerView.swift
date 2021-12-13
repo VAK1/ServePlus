@@ -4,6 +4,7 @@
 //
 //  Created by Vikram Khandelwal on 5/18/21.
 //
+//  Video Player View class
 
 import UIKit
 import AVKit

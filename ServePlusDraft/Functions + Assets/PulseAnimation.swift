@@ -4,6 +4,7 @@
 //
 //  Created by Vikram Khandelwal on 9/30/21.
 //
+//  Class for the pulse animation of the feedback buttons
 
 import UIKit
 
