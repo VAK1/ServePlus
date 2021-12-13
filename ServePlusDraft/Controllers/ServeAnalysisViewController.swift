@@ -265,7 +265,7 @@ class ServeAnalysisViewController: UIViewController {
             
             
             // Get the center of the image
-            var center = (Double(imgWidth)/2.0, Double(imgHeight)/2.0)
+            center = (Double(imgWidth)/2.0, Double(imgHeight)/2.0)
         }
         
         // Variable to keep track of the index of the "main" human (i.e the server)
