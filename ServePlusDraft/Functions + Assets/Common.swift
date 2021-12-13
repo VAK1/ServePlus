@@ -1,3 +1,15 @@
+//
+//  FeedbackButton.swift
+//  ServePlusDraft
+//
+//  Created by Vikram Khandelwal on 3/8/21.
+//
+//  This file contains the mathematic, algorithmic and ML functions that comprise the 
+//  computational meat of ServePlus. From combinatorics to pose normalization, and
+//  even generating predictions from ML Models, this file is the core of this app's
+//  value proposition.
+
+
 import CoreGraphics
 import UIKit
 import Foundation
@@ -5,30 +17,58 @@ import Vision
 import AVFoundation
 import MobileCoreServices
 
-
-
-
 public struct Permutations<S: Sequence>: IteratorProtocol, Sequence {
+    
+    /* Public Structure for finding all of the permutations in a 
+       given sequence */
 
+    // Get the values in the sequence
     private let values: [S.Iterator.Element]
+    
+    
+    // Initialize the length of each permutation
     private let permutationLength: Int
+    
+    
+    /* Boolean representing if a permutation can have repeating
+       elements */
     private let repeatingElements: Bool
+    
+    
+    // Initialize the Cartesian Range to generate the permutations
     private var indicesIterator: CartesianProduct<CountableRange<Int>>
 
+    
+    // Initialization function
     init(sequence: S, length: Int?, repeatingElements: Bool) {
+        
+        // Store the sequence values in memory
         self.values = Array(sequence)
 
+        
+        /* If length is undefined, then set the default permutation 
+           length to the length of the input sequence */
         if let length = length {
             self.permutationLength = length
         } else {
             self.permutationLength = values.count
         }
 
+        
+        /* Boolean representing if a permutation can have repeating
+           elements */
         self.repeatingElements = repeatingElements
+        
+        
+        // Get the cartesian product of the sequence
         self.indicesIterator = product(values.indices, repeated: permutationLength)
     }
 
     public mutating func next() -> [S.Iterator.Element]? {
+        
+        /* Necessary function that returns the next value in 
+           the input iterator's sequence */
+        
         guard let indices = indicesIterator.next() else {
             return nil
         }
