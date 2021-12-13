@@ -4,6 +4,8 @@
 //
 //  Created by Vikram Khandelwal on 8/24/21.
 //
+//  Class for dequeuing a cell for a portrait video
+
 
 import UIKit
 
