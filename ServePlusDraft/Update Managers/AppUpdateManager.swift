@@ -4,6 +4,10 @@
 //
 //  Created by Vikram Khandelwal on 10/9/21.
 //
+//  Class for managing the update status of the app.
+//  Differentiates between optional updates (minor
+//  updates and matches) and required updates (major
+//  updates)
 
 
 import Foundation

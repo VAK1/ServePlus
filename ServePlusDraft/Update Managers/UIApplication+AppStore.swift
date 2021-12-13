@@ -4,6 +4,9 @@
 //
 //  Created by Vikram Khandelwal on 10/9/21.
 //
+//  Extension for opening the url of ServePlus on the
+//  App store
+
 import UIKit
 import AVFoundation
 import Foundation

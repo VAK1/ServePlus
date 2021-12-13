@@ -4,6 +4,7 @@
 //
 //  Created by Vikram Khandelwal on 10/9/21.
 //
+//  Protocol for managing the bundle type
 
 import Foundation
 

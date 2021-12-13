@@ -4,6 +4,9 @@
 //
 //  Created by Vikram Khandelwal on 10/9/21.
 //
+//  Extension for alerting the user that they need
+//  to update ServePlus.
+
 import UIKit
 
 

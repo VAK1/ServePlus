@@ -4,6 +4,7 @@
 //
 //  Created by Vikram Khandelwal on 10/9/21.
 //
+//  Structures to manage the current version of ServePlus
 
 import Foundation
 
