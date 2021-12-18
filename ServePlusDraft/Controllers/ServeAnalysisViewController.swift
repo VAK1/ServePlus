@@ -713,11 +713,25 @@ class ServeAnalysisViewController: UIViewController {
                 
                 /* Generate the starting and ending frames for each individual
                    serves */
+                
+                /* Initialize the array that will hold the starting and
+                   ending frames for every individual serve */
                 self.timestamp_frames = []
-                for frame in pois {
-                    let beginning = max(0, frame - before_frame_subtractor)
-                    let end = min(frame + after_frame_adder, frameCount - 1)
-                    self.timestamp_frames.append([beginning, end])
+                
+                /* If the entire video was only a single serve, there is no
+                   need to have more than one starting and ending frame */
+                if pois == [0] {
+                    self.timestamp_frames = [[0, frameCount - 1]]
+                }
+                
+                /* If there was more than one serve in the video, then
+                   every serve needs a proper starting and ending frame*/
+                else {
+                    for frame in pois {
+                        let beginning = max(0, frame - before_frame_subtractor)
+                        let end = min(frame + after_frame_adder, frameCount - 1)
+                        self.timestamp_frames.append([beginning, end])
+                    }
                 }
                 
                 /* Create a repeating array of the input array to save in
