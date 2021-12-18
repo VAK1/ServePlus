@@ -1,3 +1,15 @@
+//
+//  Common.swift
+//  ServePlusDraft
+//
+//  Created by Vikram Khandelwal on 3/8/21.
+//
+//  Class for the algorithmic, mathematical and AI components
+//  that comprise the computational meat of ServePlus. The
+//  functions that process human body keypoints, detect
+//  individual serves from entire videos, and generate scores
+//  for a players serve can be found here.
+
 import CoreGraphics
 import UIKit
 import Foundation
@@ -6,287 +18,268 @@ import AVFoundation
 import MobileCoreServices
 
 
-
-
-public struct Permutations<S: Sequence>: IteratorProtocol, Sequence {
-
-    private let values: [S.Iterator.Element]
-    private let permutationLength: Int
-    private let repeatingElements: Bool
-    private var indicesIterator: CartesianProduct<CountableRange<Int>>
-
-    init(sequence: S, length: Int?, repeatingElements: Bool) {
-        self.values = Array(sequence)
-
-        if let length = length {
-            self.permutationLength = length
-        } else {
-            self.permutationLength = values.count
-        }
-
-        self.repeatingElements = repeatingElements
-        self.indicesIterator = product(values.indices, repeated: permutationLength)
-    }
-
-    public mutating func next() -> [S.Iterator.Element]? {
-        guard let indices = indicesIterator.next() else {
-            return nil
-        }
-
-        if !repeatingElements {
-            guard Set(indices).count == permutationLength else {
-                return next()
-            }
-        }
-
-        let permutation = indices.map { values[$0] }
-        return permutation.isEmpty ? nil : permutation
-    }
-}
-
-public struct CartesianProduct<S: Sequence>: IteratorProtocol, Sequence {
-
-    private let sequences: [S]
-    private var iterators: [S.Iterator]
-    private var currentValues: [S.Iterator.Element] = []
-
-    fileprivate init(_ sequences: [S]) {
-        self.sequences = sequences
-        self.iterators = sequences.map { $0.makeIterator() }
-    }
-
-    public mutating func next() -> [S.Iterator.Element]? {
-        guard !currentValues.isEmpty else {
-            var firstValues: [S.Iterator.Element] = []
-            for index in iterators.indices {
-                guard let value = iterators[index].next() else {
-                    return nil
-                }
-                firstValues.append(value)
-            }
-            currentValues = firstValues
-            return firstValues
-        }
-
-        for index in currentValues.indices.reversed() {
-            if let value = iterators[index].next() {
-                currentValues[index] = value
-                return currentValues
-            }
-
-            guard index != 0 else {
-                return nil
-            }
-
-            iterators[index] = sequences[index].makeIterator()
-            currentValues[index] = iterators[index].next()!
-        }
-
-        return currentValues
-    }
-}
-public func product<S: Sequence>(_ sequences: S...) -> CartesianProduct<S> {
-    return CartesianProduct(sequences)
-}
-public func product<S: Sequence>(_ sequence: S, repeated: Int) -> CartesianProduct<S> {
-    let sequences = Array(repeating: sequence, count: repeated)
-    return CartesianProduct(sequences)
-}
-
-public extension Sequence {
-
-    
-    func combinations(length: Int, repeatingElements: Bool) -> [[Iterator.Element]] {
-        return Array(Combinations(sequence: self, length: length, repeatingElements: repeatingElements))
-    }
-}
-
-
-public extension LazySequenceProtocol {
-
-    func combinations(length: Int, repeatingElements: Bool) -> Combinations<Self> {
-        return Combinations(sequence: self, length: length, repeatingElements: repeatingElements)
-    }
-}
-
-
-
-public struct Combinations<S: Sequence>: IteratorProtocol, Sequence {
-
-    private let values: [S.Iterator.Element]
-    private let combinationLength: Int
-    private let repeatingElements: Bool
-    private var indicesIterator: AnyIterator<Array<Int>>
-
-    fileprivate init(sequence: S, length: Int, repeatingElements: Bool) {
-        self.values = Array(sequence)
-        self.combinationLength = length
-        self.repeatingElements = repeatingElements
-        if repeatingElements {
-            self.indicesIterator = AnyIterator(product(values.indices, repeated: length))
-        } else {
-            self.indicesIterator = AnyIterator(Permutations(sequence: values.indices, length: length, repeatingElements: false))
-        }
-    }
-
-    public mutating func next() -> [S.Iterator.Element]? {
-        guard let indices = indicesIterator.next() else {
-            return nil
-        }
-
-        guard indices.sorted() == indices else {
-            return next()
-        }
-
-        let combination = indices.map { values[$0] }
-        return combination.isEmpty ? nil : combination
-    }
-}
-extension CGPoint {
-    init(_ x: CGFloat, _ y: CGFloat) {
-        self.init()
-        self.x = x
-        self.y = y
-    }
-}
-extension UIColor {
-    class func rgb(_ r: Int,_ g: Int,_ b: Int) -> UIColor{
-        return UIColor(red: CGFloat(r) / 255.0, green: CGFloat(g) / 255.0, blue: CGFloat(b) / 255.0, alpha: 1)
-    }
-}
-
 class Common {
         
-    var heatRows = 0
-    var heatColumns = 0
+    /* References to the dimensions of the frames of the input
+       videos, so when keypoints are detected, I can project
+       keypoints from the normalized coordinate space into
+       image coordinates. */
     var imgWidth = 0
     var imgHeight = 0
     
-    let cocoPairs = [
+    
+    /* Pairs of body keypoints indices that are connected
+       (e.g. the shoulder and the elbow, but not the left
+       hip and the forehead) */
+    let connection_indices = [
         (1, 2),   (1, 5),   (2, 3),  (3, 4),  (5, 6),
         (6, 7),   (1, 8),   (8, 9),  (9, 10), (1, 11),
         (11, 12), (12, 13), (1, 0),  (0, 14), (14, 16),
         (0, 15),  (15, 17), (2, 16), (5, 17)
     ]
     
-    var cocoColors : [UIColor] = [UIColor.rgb(255, 0, 0),  UIColor.rgb(255, 85, 0), UIColor.rgb(255, 170, 0),UIColor.rgb(255, 255, 0),
-                      UIColor.rgb(170, 255, 0),UIColor.rgb(85, 255, 0), UIColor.rgb(0, 255, 0),  UIColor.rgb(0, 255, 85),
-                      UIColor.rgb(0, 255, 170),UIColor.rgb(0, 255, 255),UIColor.rgb(0, 170, 255),UIColor.rgb(0, 85, 255),
-                      UIColor.rgb(0, 0, 255),  UIColor.rgb(85, 0, 255), UIColor.rgb(170, 0, 255),UIColor.rgb(255, 0, 255),
-                      UIColor.rgb(255, 0, 170),UIColor.rgb(255, 0, 85), UIColor.rgb(255, 0, 255)]
+    
+    // Nice colors for the keypoint connections
+    var connection_colors : [UIColor] = [UIColor.rgb(255, 0, 0),
+                                  UIColor.rgb(255, 85, 0),
+                                  UIColor.rgb(255, 170, 0),
+                                  UIColor.rgb(255, 255, 0),
+                                  UIColor.rgb(170, 255, 0),
+                                  UIColor.rgb(85, 255, 0),
+                                  UIColor.rgb(0, 255, 0),
+                                  UIColor.rgb(0, 255, 85),
+                                  UIColor.rgb(0, 255, 170),
+                                  UIColor.rgb(0, 255, 255),
+                                  UIColor.rgb(0, 170, 255),
+                                  UIColor.rgb(0, 85, 255),
+                                  UIColor.rgb(0, 0, 255),
+                                  UIColor.rgb(85, 0, 255),
+                                  UIColor.rgb(170, 0, 255),
+                                  UIColor.rgb(255, 0, 255),
+                                  UIColor.rgb(255, 0, 170),
+                                  UIColor.rgb(255, 0, 85),
+                                  UIColor.rgb(255, 0, 255)]
     
     
+    /* This allows us to initialize an instance of the Common
+       class so that the video dimensions can be used in all
+       of these Common functions without having to specify
+       the dimensions over and over again. */
     init(_ imageWidth: Int,_ imageHeight: Int){
         imgWidth = imageWidth
         imgHeight = imageHeight
     }
     
     func getImagePoints(_ observation: VNRecognizedPointsObservation, _ orientation: UIImage.Orientation) -> ((Int, Int), [CGPoint]) {
-        // Retrieve all torso points.
+
+        /* Takes already detected keypoints and returns those same
+           keypoints in the video's native coordinate space*/
+        
+        // Get the detected points from the ML Pose observation
         guard let recognizedPoints =
                 try? observation.recognizedPoints(forGroupKey: .all) else {
             fatalError()
         }
         
+//        
+//        let jointsOfInterest: [VNRecognizedPointKey] = [
+//            .bodyLandmarkKeyNose,
+//            .bodyLandmarkKeyNeck,
+//            .bodyLandmarkKeyRightShoulder,
+//            .bodyLandmarkKeyRightElbow,
+//            .bodyLandmarkKeyRightWrist,
+//            .bodyLandmarkKeyLeftShoulder,
+//            .bodyLandmarkKeyLeftElbow,
+//            .bodyLandmarkKeyLeftWrist,
+//            .bodyLandmarkKeyRightHip,
+//            .bodyLandmarkKeyRightKnee,
+//            .bodyLandmarkKeyRightAnkle,
+//            .bodyLandmarkKeyLeftHip,
+//            .bodyLandmarkKeyLeftKnee,
+//            .bodyLandmarkKeyLeftAnkle,
+//            .bodyLandmarkKeyRightEye,
+//            .bodyLandmarkKeyLeftEye,
+//            .bodyLandmarkKeyRightEar,
+//            .bodyLandmarkKeyLeftEar,
+//            ]
+//        let imagePoints: [CGPoint] = jointsOfInterest.compactMap {
+//            guard let point = recognizedPoints[$0], point.confidence > 0 else {
+//                return CGPoint(0.0, 0.0) }
+//            let x = point.x
+//            let y = point.y
+//            return VNImagePointForNormalizedPoint(CGPoint(CGFloat(x), CGFloat(1.0-y)),
+//                                                  Int(imgWidth),
+//                                                  Int(imgHeight))
+//        }
         
-        let jointsOfInterest: [VNRecognizedPointKey] = [
-            .bodyLandmarkKeyNose,
-            .bodyLandmarkKeyNeck,
-            .bodyLandmarkKeyRightShoulder,
-            .bodyLandmarkKeyRightElbow,
-            .bodyLandmarkKeyRightWrist,
-            .bodyLandmarkKeyLeftShoulder,
-            .bodyLandmarkKeyLeftElbow,
-            .bodyLandmarkKeyLeftWrist,
-            .bodyLandmarkKeyRightHip,
-            .bodyLandmarkKeyRightKnee,
-            .bodyLandmarkKeyRightAnkle,
-            .bodyLandmarkKeyLeftHip,
-            .bodyLandmarkKeyLeftKnee,
-            .bodyLandmarkKeyLeftAnkle,
-            .bodyLandmarkKeyRightEye,
-            .bodyLandmarkKeyLeftEye,
-            .bodyLandmarkKeyRightEar,
-            .bodyLandmarkKeyLeftEar,
-            ]
-        let imagePoints: [CGPoint] = jointsOfInterest.compactMap {
-            guard let point = recognizedPoints[$0], point.confidence > 0 else {
-                return CGPoint(0.0, 0.0) }
-            let x = point.x
-            let y = point.y
-            return VNImagePointForNormalizedPoint(CGPoint(CGFloat(x), CGFloat(1.0-y)),
-                                                  Int(imgWidth),
-                                                  Int(imgHeight))
+        // Initialize an array to hold the frame-native points
+        var trialPoints: [CGPoint] = []
+        
+        
+        /* Bring every point into the frame's native coordinate
+           space */
+        for point in recognizedPoints {
+            trialPoints.append(
+                VNImagePointForNormalizedPoint(
+                    CGPoint(CGFloat(point.value.x), CGFloat(1.0-point.value.y)),
+                    Int(imgWidth),
+                    Int(imgHeight)
+                )
+            )
         }
         
-        return ((Int(imgWidth), Int(imgHeight)), imagePoints)
+        // Return the points with the image dimensions
+        return ((Int(imgWidth), Int(imgHeight)), trialPoints)
         
     }
     
     func distanceFromCenter(_ pose: [CGPoint], _ center: (Double, Double)) -> Double {
+        
+        /* Takes a pose and returns the average of each pose
+           keypoint's distance from the frame's center. Used
+           to determine the main person in a frame, since
+           pose detection can detect multiple people. */
+        
+        // Initialize float to hold sum of keypoint distances
         var distanceSum = 0.0
+        
+        
+        /* Initialize integer to keep track of how many detected
+           keypoints are actually valid */
         var realPoints = pose.count
+        
+        
+        // Loop through every keypoint
         for point in pose {
+            
+            /* Return the distance from the center if the detected
+               point isn't a dud */
             if point != CGPoint(0.0, 0.0) {
                 distanceSum += hypot(Double(point.x), Double(point.y))
             }
+            
+            /* Subtract from the total number of valid keypoints if
+               the point is a dud */
             else {
                 realPoints -= 1
             }
         }
+        
+        /* Average all the distances and return the result
+           (ulpOfOne is a really small number to ensure we
+           don't get a divideByZero error */
         return distanceSum/(Double(realPoints)+Double.ulpOfOne)
     }
     
     func getConnections(_ points: [CGPoint]) -> [(CGPoint, CGPoint, UIColor)] {
+        
+        /* Takes detected keypoints and returns a list of
+           "connections". Each connection is a pair of points with
+            a color that represents a line that will be drawn on
+            the replay video.*/
+        
+        // Initialize array to hold all the connections
         var connections: [(CGPoint, CGPoint, UIColor)] = []
-        for conn_idx in 0...cocoPairs.count-1 {
-            let (pointOneIndex, pointTwoIndex) = cocoPairs[conn_idx]
+        
+        
+        /* Loop through all pairs of connected keypoint indices */
+        for conn_idx in 0...connection_indices.count-1 {
+            
+            // Unpack the individual keypoint indices
+            let (pointOneIndex, pointTwoIndex) = connection_indices[conn_idx]
+            
+            
+            /* Only include a connection if both keypoints are
+               valid */
             if points[pointOneIndex] != CGPoint(0.0,0.0) && points[pointTwoIndex] != CGPoint(0.0, 0.0) {
-                connections.append((points[pointOneIndex], points[pointTwoIndex], cocoColors[conn_idx]))
+                
+                // Add the connection to our array
+                connections.append((points[pointOneIndex], points[pointTwoIndex], connection_colors[conn_idx]))
             }
         }
+    
+        // Return the connections
         return connections
     }
     
     func normalizeServeFrame(_ pose: [CGPoint]) -> [Double] {
+        
+        /* Normalizes a single pose such that all points fall
+           between 0 and 1 on the x axis, and the proportions
+           of the dimensions stay the same (i.e a taller person
+           will still have a taller normalized pose than a
+           shorter person) */
+        
+        /* Initialize array that will store the raw coords of
+           the detected keypoints */
         var serve_frame: [Double] = []
+        
+        
+        // Append each coordinate to the serve_frame array
         for point in pose {
             serve_frame.append(Double(point.x))
             serve_frame.append(Double(point.y))
         }
+        
+        /* Align the pose to the left side of the frame */
+        
         var leftmostX = 99999999.0
+        
         for index in stride(from:0, to: serve_frame.count, by: 2) {
+            
+            /* Ignore points already on the left side of the frame
+               (they are probably duds) */
             if serve_frame[index] < leftmostX && serve_frame[index] != 0.0 {
                 leftmostX = serve_frame[index]
             }
         }
+        
         for index in stride(from:0, to: pose.count, by: 2) {
+            
+            /* Ignore points already on the left side of the frame
+               (they are probably duds) */
             if serve_frame[index] != 0.0 {
                 serve_frame[index] -= leftmostX
             }
         }
-        var leftmostY = 99999999.0
+        
+        /* Align the pose to the upper side of the frame*/
+        
+        var topmostY = 99999999.0
+        
         for index in stride(from:1, to: serve_frame.count, by: 2) {
-            if serve_frame[index] < leftmostY && serve_frame[index] != 0.0 {
-                leftmostY = serve_frame[index]
+            
+            /* Ignore points already on the upper side of the frame
+               (they are probably duds) */
+            if serve_frame[index] < topmostY && serve_frame[index] != 0.0 {
+                topmostY = serve_frame[index]
             }
         }
+        
         for index in stride(from:1, to: pose.count, by: 2) {
+            
+            /* Ignore points already on the upper side of the frame
+               (they are probably duds) */
             if serve_frame[index] != 0.0 {
-                serve_frame[index] -= leftmostY
+                serve_frame[index] -= topmostY
             }
         }
-        //scale to equal width
-        var rightmostY = 0.0
+        
+        /* Scale the pose until it has a unit width (a width of 1) */
+        
+        var bottommostY = 0.0
+        
         for index in stride(from:1, to: serve_frame.count, by: 2) {
-            if serve_frame[index] > rightmostY && serve_frame[index] != 0.0 {
-                rightmostY = serve_frame[index]
+            if serve_frame[index] > bottommostY {
+                bottommostY = serve_frame[index]
             }
         }
         for index in 0...serve_frame.count - 1 {
-            serve_frame[index] /= rightmostY
+            serve_frame[index] /= bottommostY
         }
         
+        
+        // Return the coordinate list
         return serve_frame
         
     }
@@ -3832,5 +3825,153 @@ class Common {
         }
         let to_return = tossHeightScore.featureValue(for: "target")!
         return Double(to_return.int64Value)
+    }
+}
+
+
+public struct Permutations<S: Sequence>: IteratorProtocol, Sequence {
+
+    private let values: [S.Iterator.Element]
+    private let permutationLength: Int
+    private let repeatingElements: Bool
+    private var indicesIterator: CartesianProduct<CountableRange<Int>>
+
+    init(sequence: S, length: Int?, repeatingElements: Bool) {
+        self.values = Array(sequence)
+
+        if let length = length {
+            self.permutationLength = length
+        } else {
+            self.permutationLength = values.count
+        }
+
+        self.repeatingElements = repeatingElements
+        self.indicesIterator = product(values.indices, repeated: permutationLength)
+    }
+
+    public mutating func next() -> [S.Iterator.Element]? {
+        guard let indices = indicesIterator.next() else {
+            return nil
+        }
+
+        if !repeatingElements {
+            guard Set(indices).count == permutationLength else {
+                return next()
+            }
+        }
+
+        let permutation = indices.map { values[$0] }
+        return permutation.isEmpty ? nil : permutation
+    }
+}
+
+public struct CartesianProduct<S: Sequence>: IteratorProtocol, Sequence {
+
+    private let sequences: [S]
+    private var iterators: [S.Iterator]
+    private var currentValues: [S.Iterator.Element] = []
+
+    fileprivate init(_ sequences: [S]) {
+        self.sequences = sequences
+        self.iterators = sequences.map { $0.makeIterator() }
+    }
+
+    public mutating func next() -> [S.Iterator.Element]? {
+        guard !currentValues.isEmpty else {
+            var firstValues: [S.Iterator.Element] = []
+            for index in iterators.indices {
+                guard let value = iterators[index].next() else {
+                    return nil
+                }
+                firstValues.append(value)
+            }
+            currentValues = firstValues
+            return firstValues
+        }
+
+        for index in currentValues.indices.reversed() {
+            if let value = iterators[index].next() {
+                currentValues[index] = value
+                return currentValues
+            }
+
+            guard index != 0 else {
+                return nil
+            }
+
+            iterators[index] = sequences[index].makeIterator()
+            currentValues[index] = iterators[index].next()!
+        }
+
+        return currentValues
+    }
+}
+public func product<S: Sequence>(_ sequences: S...) -> CartesianProduct<S> {
+    return CartesianProduct(sequences)
+}
+public func product<S: Sequence>(_ sequence: S, repeated: Int) -> CartesianProduct<S> {
+    let sequences = Array(repeating: sequence, count: repeated)
+    return CartesianProduct(sequences)
+}
+
+public extension Sequence {
+
+    
+    func combinations(length: Int, repeatingElements: Bool) -> [[Iterator.Element]] {
+        return Array(Combinations(sequence: self, length: length, repeatingElements: repeatingElements))
+    }
+}
+
+
+public extension LazySequenceProtocol {
+
+    func combinations(length: Int, repeatingElements: Bool) -> Combinations<Self> {
+        return Combinations(sequence: self, length: length, repeatingElements: repeatingElements)
+    }
+}
+
+
+
+public struct Combinations<S: Sequence>: IteratorProtocol, Sequence {
+
+    private let values: [S.Iterator.Element]
+    private let combinationLength: Int
+    private let repeatingElements: Bool
+    private var indicesIterator: AnyIterator<Array<Int>>
+
+    fileprivate init(sequence: S, length: Int, repeatingElements: Bool) {
+        self.values = Array(sequence)
+        self.combinationLength = length
+        self.repeatingElements = repeatingElements
+        if repeatingElements {
+            self.indicesIterator = AnyIterator(product(values.indices, repeated: length))
+        } else {
+            self.indicesIterator = AnyIterator(Permutations(sequence: values.indices, length: length, repeatingElements: false))
+        }
+    }
+
+    public mutating func next() -> [S.Iterator.Element]? {
+        guard let indices = indicesIterator.next() else {
+            return nil
+        }
+
+        guard indices.sorted() == indices else {
+            return next()
+        }
+
+        let combination = indices.map { values[$0] }
+        return combination.isEmpty ? nil : combination
+    }
+}
+extension CGPoint {
+    init(_ x: CGFloat, _ y: CGFloat) {
+        self.init()
+        self.x = x
+        self.y = y
+    }
+}
+extension UIColor {
+    class func rgb(_ r: Int,_ g: Int,_ b: Int) -> UIColor{
+        return UIColor(red: CGFloat(r) / 255.0, green: CGFloat(g) / 255.0, blue: CGFloat(b) / 255.0, alpha: 1)
     }
 }
