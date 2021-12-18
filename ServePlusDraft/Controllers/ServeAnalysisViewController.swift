@@ -879,18 +879,29 @@ class ServeAnalysisViewController: UIViewController {
                         specificshoulderDistances.append(self.com.distance(coord, specificpt2ys[index], specificpt5xs[index], specificpt5ys[index]))
                     }
                     
+                    /* Construct histograms out of the lists of metrics.
+                       These histograms will be fed to the AI serve grader
+                       models. */
                     
-                    // Add all preprocessed values to the collection of ML arrays
-                    self.allServeMLArrays.append([
+                    // Group all the angle-related arrays together
+                    let preHistogramAngleArrays = [
                         specificbackAngles,
-                        specificpt10ys,
-                        specificpt13ys,
                         specificleftLegAngles,
                         specificrightLegAngles,
-                        specificfeetDistances,
                         specificleftHandAngles,
-                        specificrightHandAngles,
-                        specificshoulderDistances,
+                        specificrightHandAngles
+                    ]
+                    
+                    // Group all the distance-related arrays together
+                    let preHistogramDistanceArrays = [
+                        specificfeetDistances,
+                        specificshoulderDistances
+                    ]
+                    
+                    // Group all the coordinate-related arrays together
+                    let preHistogramCoordArrays = [
+                        specificpt10ys,
+                        specificpt13ys,
                         specificpt2xs,
                         specificpt3xs,
                         specificpt4xs,
@@ -903,8 +914,31 @@ class ServeAnalysisViewController: UIViewController {
                         specificpt5ys,
                         specificpt6ys,
                         specificpt7ys
-                    ])
-
+                    ]
+                    
+                    
+                    // Initialize array to hold the final histograms
+                    var postHistogramArrays: [[Double]] = []
+                    
+                    
+                    // Construct histograms from the angle-related arrays
+                    for array in preHistogramAngleArrays {
+                        postHistogramArrays.append(self.com.histogram(array, 120, -2 * Double.pi, 2*Double.pi))
+                    }
+                    
+                    // Construct histograms from the distance-related arrays
+                    for array in preHistogramDistanceArrays {
+                        postHistogramArrays.append(self.com.histogram(array, 120, 0, Double(imgWidth)))
+                    }
+                    
+                    // Construct histograms from the coordinate-related arrays
+                    for array in preHistogramCoordArrays {
+                        postHistogramArrays.append(self.com.histogram(array, 120, 0, Double(imgWidth)))
+                    }
+                    
+                    
+                    // Add all histograms to the collection of ML arrays
+                    self.allServeMLArrays.append(postHistogramArrays)
                 }
 
                 // Update the UI to let users know their serves are being graded
@@ -921,7 +955,7 @@ class ServeAnalysisViewController: UIViewController {
                     
                     
                     // Back Leg Kicked Back score
-                    let backLegScore = self.com.getBLPrediction(self.BLModel!, MLArray[1], MLArray[2], MLArray[3], MLArray[4])
+                    let backLegScore = self.com.getBLPrediction(self.BLModel!, MLArray[7], MLArray[8], MLArray[1], MLArray[2])
                     
                     
                     // Feet Spacing score
@@ -929,19 +963,19 @@ class ServeAnalysisViewController: UIViewController {
                     
                     
                     // Jump Height score
-                    let jumpHeightScore = self.com.getJHPrediction(self.JHModel!, MLArray[1], MLArray[2])
+                    let jumpHeightScore = self.com.getJHPrediction(self.JHModel!, MLArray[7], MLArray[8])
                     
                     
                     // Left Arm Straight Score
-                    let leftArmScore = self.com.getLAPrediction(self.LAModel!, MLArray[6], MLArray[7])
+                    let leftArmScore = self.com.getLAPrediction(self.LAModel!, MLArray[3], MLArray[4])
                     
                     
                     // Legs Bent Score
-                    let legsBentScore = self.com.getLBPrediction(self.LBModel!, MLArray[3], MLArray[4])
+                    let legsBentScore = self.com.getLBPrediction(self.LBModel!, MLArray[1], MLArray[2])
                     
                     
                     // Shoulder Rotation Timing Score
-                    let shoulderScore = self.com.getSTPrediction(self.STModel!, MLArray[8], MLArray[3], MLArray[4])
+                    let shoulderScore = self.com.getSTPrediction(self.STModel!, MLArray[6], MLArray[1], MLArray[2])
                     
                     
                     // Toss Height Score

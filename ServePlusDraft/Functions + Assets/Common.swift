@@ -724,6 +724,15 @@ class Common {
         }
     }
     
+    func histogram(_ arr: [Double], _ bins: Int, _ start: Double, _ end: Double) -> [Double] {
+        
+        /* Generates a histogram from an input array based on an
+           indicated number of bins, a starting bin vaule and an
+           ending bin value */
+        
+        return arr
+    }
+    
     func getDeviceName() -> String {
         
         /* Gets the name of the user's device. Used to understand if
