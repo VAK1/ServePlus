@@ -285,14 +285,23 @@ class Common {
     }
     
     func two_point_angle(_ x1: Double, _ y1: Double, _ x2: Double, _ y2: Double) -> Double {
+        
+        /* Returns the angle between two points and the horizon */
+        
         return atan((x2-x1)/(y1-y2))
     }
     
     func midpoint(_ x1: Double, _ y1: Double, _ x2: Double, _ y2: Double) -> (Double, Double) {
+        
+        /* Returns the midpoint between two points */
+        
         return ((x1+x2)/2, (y1+y2)/2)
     }
     
     func three_point_angle(_ x1: Double, _ y1: Double, _ x2: Double, _ y2: Double, _ x3: Double, _ y3: Double) -> Double {
+        
+        /* Returns the angle between three points */
+        
         let x1x2s = pow((x1 - x2),2)
         let x1x3s = pow((x1 - x3),2)
         let x2x3s = pow((x3 - x3),2)
@@ -305,33 +314,52 @@ class Common {
     }
     
     func distance(_ x1: Double, _ y1: Double, _ x2: Double, _ y2: Double) -> Double {
+        
+        /* Returns the distance between two points */
+        
         return sqrt(pow((x1-x2), 2) + pow((y1-y2), 2))
     }
     
    
     func interpolateZeroes(_ arr: [Double]) -> [Double] {
+        
+        /* Interpolates zeroes in an array. Useful when
+           certain coordinates of poses aren't detected for
+           some reason, and we want to use non-zero numbers
+           for maximum benefit. */
+    
+        // Get the first non-zero number
         let firstNonZero = arr.first(where: { $0 != 0 })
+        
+        
+        // If the entire array is zeroes, return it
         if firstNonZero == nil {
             return arr
         }
+        
+        /* Initialize an integer to keep track of the last
+           nonzero number */
         var lastNonZero = firstNonZero
 
-        var new_arr:[Double] = []
+        
+        /* Initialize an array that will become the interpolated
+           array */
+        var interpolated:[Double] = []
         var found_nonzero = false
         for element in arr {
             if (element == 0.0 && !found_nonzero) {
-                new_arr.append(firstNonZero!)
+                interpolated.append(firstNonZero!)
             }
             else if (element == 0.0) {
-                new_arr.append(lastNonZero!)
+                interpolated.append(lastNonZero!)
             }
             if (element != 0.0) {
                 lastNonZero = element
-                new_arr.append(element)
+                interpolated.append(element)
                 found_nonzero = true
             }
         }
-        return new_arr
+        return interpolated
     }
 
     func scale_array(_ arr: [Double]) -> [Double] {
