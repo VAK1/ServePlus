@@ -726,11 +726,61 @@ class Common {
     
     func histogram(_ arr: [Double], _ bins: Int, _ start: Double, _ end: Double) -> [Double] {
         
-        /* Generates a histogram from an input array based on an
-           indicated number of bins, a starting bin vaule and an
-           ending bin value */
+        /* Function to create a probability histogram out of
+           an array of floating point numbers. We can specify
+           the number of bins, as well as the value of the
+           first bin's left edge and last bin's right edge. */
         
-        return arr
+        /* Initialize an empty probability histogram with the
+           necessary number of bins */
+        var histogram = [Double](repeating: 0.0, count: bins)
+        
+        
+        /* Calculate the ratio of the bin range to the number
+           of bins to find the size of each bin. */
+        let bin_size = (end-start)/Double(bins)
+        
+        
+        /* If there are no elements in the array, return
+           an empty histogram */
+        if arr.count == 0 {
+            return histogram
+        }
+        
+        
+        // Loop through every element in the input array
+        for element in arr {
+            
+            /* If the element is smaller than the left edge
+               of the starting bin, then add it to the left-
+               most bin. */
+            if element <= start {
+                histogram[0] += 1 / Double(arr.count)
+            }
+            
+            /* If the element is greater than the right edge
+               of the ending bin, then add it to the right-most
+               bin. */
+            else if element >= end {
+                histogram[bins-1] += 1 / Double(arr.count)
+            }
+            
+            /* Check if the element actually falls inside the
+               histogram */
+            else {
+                
+                /* Determine the position of the element in the
+                   final probability histogram */
+                let idx = Int((element - start)/bin_size)
+                
+                
+                /* Add that element to the probability histogram */
+                histogram[idx] += 1.0/Double(arr.count)
+            }
+        }
+        
+        return histogram
+        
     }
     
     func getDeviceName() -> String {
