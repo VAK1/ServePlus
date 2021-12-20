@@ -548,7 +548,6 @@ class ServeAnalysisViewController: UIViewController {
            input video */
         let naturalSize: CGSize = media.naturalSize
         let preferedTransform: CGAffineTransform = media.preferredTransform
-        let size = naturalSize.applying(preferedTransform)
 
         
         /* Initialize a generator that will generate frames from the
@@ -567,7 +566,6 @@ class ServeAnalysisViewController: UIViewController {
         
         // Keep track of the number of frames and duration per frame
         var frameCount = 0
-        let durationForEachImage = 1
 
         
         // Calculate the FPS of the video
@@ -763,15 +761,15 @@ class ServeAnalysisViewController: UIViewController {
                     
                     
                     // Save all of the manipulated values in their own arrays
-                    var specificbackAngles = self.com.zero_pad(Array(self.backAngles[bookmark[0]...bookmark[1]-1]))
-                    var specificpt10xs = self.com.zero_pad(Array(self.pt10xs[bookmark[0]...bookmark[1]-1]))
-                    var specificpt13xs = self.com.zero_pad(Array(self.pt13xs[bookmark[0]...bookmark[1]-1]))
+                    let specificbackAngles = self.com.zero_pad(Array(self.backAngles[bookmark[0]...bookmark[1]-1]))
+                    let specificpt10xs = self.com.zero_pad(Array(self.pt10xs[bookmark[0]...bookmark[1]-1]))
+                    let specificpt13xs = self.com.zero_pad(Array(self.pt13xs[bookmark[0]...bookmark[1]-1]))
                     var specificpt10ys = self.com.zero_pad(Array(self.pt10ys[bookmark[0]...bookmark[1]-1]))
                     var specificpt13ys = self.com.zero_pad(Array(self.pt13ys[bookmark[0]...bookmark[1]-1]))
-                    var specificleftLegAngles = self.com.zero_pad(Array(self.leftLegAngles[bookmark[0]...bookmark[1]-1]))
-                    var specificrightLegAngles = self.com.zero_pad(Array(self.rightLegAngles[bookmark[0]...bookmark[1]-1]))
-                    var specificleftHandAngles = self.com.zero_pad(Array(self.leftHandAngles[bookmark[0]...bookmark[1]-1]))
-                    var specificrightHandAngles = self.com.zero_pad(Array(self.rightHandAngles[bookmark[0]...bookmark[1]-1]))
+                    let specificleftLegAngles = self.com.zero_pad(Array(self.leftLegAngles[bookmark[0]...bookmark[1]-1]))
+                    let specificrightLegAngles = self.com.zero_pad(Array(self.rightLegAngles[bookmark[0]...bookmark[1]-1]))
+                    let specificleftHandAngles = self.com.zero_pad(Array(self.leftHandAngles[bookmark[0]...bookmark[1]-1]))
+                    let specificrightHandAngles = self.com.zero_pad(Array(self.rightHandAngles[bookmark[0]...bookmark[1]-1]))
                     var specificpt2xs = self.com.zero_pad(Array(self.pt2xs[bookmark[0]...bookmark[1]-1]))
                     var specificpt2ys = self.com.zero_pad(Array(self.pt2ys[bookmark[0]...bookmark[1]-1]))
                     var specificpt3xs = self.com.zero_pad(Array(self.pt3xs[bookmark[0]...bookmark[1]-1]))
