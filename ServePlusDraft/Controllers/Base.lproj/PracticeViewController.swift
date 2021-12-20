@@ -1,5 +1,5 @@
 //
-//  MiddlePracticeViewController.swift
+//  PracticeViewController.swift
 //  ServePlusDraft
 //
 //  Created by Vikram Khandelwal on 8/4/21.
@@ -16,7 +16,7 @@ import AVFoundation
 import Foundation
 import CoreGraphics
 
-class MiddlePracticeViewController: UIViewController {
+class PracticeViewController: UIViewController {
     
     
     /* context helps this controller link to the app's data model to retrieve
@@ -422,7 +422,7 @@ class MiddlePracticeViewController: UIViewController {
     }
 
 }
-extension MiddlePracticeViewController: UITableViewDataSource{
+extension PracticeViewController: UITableViewDataSource{
     
     func numberOfSections(in tableView: UITableView) -> Int {
         
@@ -443,7 +443,7 @@ extension MiddlePracticeViewController: UITableViewDataSource{
     }
     
 }
-extension MiddlePracticeViewController: UITableViewDelegate {
+extension PracticeViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
 
         /* Required function for all UITableViewDelegates */

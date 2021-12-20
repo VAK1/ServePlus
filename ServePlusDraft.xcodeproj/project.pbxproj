@@ -23,7 +23,7 @@
 		7D5865B626AF44B100157D36 /* feetSpacingXGBoost.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = 7D5865AE26AF44B000157D36 /* feetSpacingXGBoost.mlmodel */; };
 		7D5865B726AF44B100157D36 /* tossHeightXGBoost.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = 7D5865AF26AF44B100157D36 /* tossHeightXGBoost.mlmodel */; };
 		7D5865B826AF44B100157D36 /* shoulderTimingXGBoost.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = 7D5865B026AF44B100157D36 /* shoulderTimingXGBoost.mlmodel */; };
-		7D59D0EB26BB89FA008EC5DD /* MiddlePracticeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D59D0E926BB89FA008EC5DD /* MiddlePracticeViewController.swift */; };
+		7D59D0EB26BB89FA008EC5DD /* PracticeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D59D0E926BB89FA008EC5DD /* PracticeViewController.swift */; };
 		7D59D0F126BBA6FA008EC5DD /* GraphViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D59D0F026BBA6FA008EC5DD /* GraphViewController.swift */; };
 		7D59D0F626BBAFD6008EC5DD /* TabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D59D0F526BBAFD6008EC5DD /* TabBarController.swift */; };
 		7D59DBBD26D5597B00E318A3 /* WideVideoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D59DBBB26D5597B00E318A3 /* WideVideoCell.swift */; };
@@ -105,7 +105,7 @@
 		7D5865AE26AF44B000157D36 /* feetSpacingXGBoost.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; path = feetSpacingXGBoost.mlmodel; sourceTree = "<group>"; };
 		7D5865AF26AF44B100157D36 /* tossHeightXGBoost.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; path = tossHeightXGBoost.mlmodel; sourceTree = "<group>"; };
 		7D5865B026AF44B100157D36 /* shoulderTimingXGBoost.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; path = shoulderTimingXGBoost.mlmodel; sourceTree = "<group>"; };
-		7D59D0EA26BB89FA008EC5DD /* Base */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = Base; path = Base.lproj/MiddlePracticeViewController.swift; sourceTree = "<group>"; };
+		7D59D0EA26BB89FA008EC5DD /* Base */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = Base; path = Base.lproj/PracticeViewController.swift; sourceTree = "<group>"; };
 		7D59D0F026BBA6FA008EC5DD /* GraphViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GraphViewController.swift; sourceTree = "<group>"; };
 		7D59D0F526BBAFD6008EC5DD /* TabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarController.swift; sourceTree = "<group>"; };
 		7D59DBBB26D5597B00E318A3 /* WideVideoCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WideVideoCell.swift; sourceTree = "<group>"; };
@@ -214,7 +214,7 @@
 			isa = PBXGroup;
 			children = (
 				7D5A50FD270D30BD00DCF1F8 /* Onboarding */,
-				7D59D0E926BB89FA008EC5DD /* MiddlePracticeViewController.swift */,
+				7D59D0E926BB89FA008EC5DD /* PracticeViewController.swift */,
 				7DE98D5C25E0332E00E333DD /* CameraViewController.swift */,
 				7D5817FF26BE153F00AB2010 /* ServeAnalysisViewController.swift */,
 				7DA9A6FD265A267E00ED17E8 /* FeedbackController.swift */,
@@ -435,7 +435,7 @@
 				7D5865B826AF44B100157D36 /* shoulderTimingXGBoost.mlmodel in Sources */,
 				7D59DBC126D559A500E318A3 /* TallVideoCell.swift in Sources */,
 				7DA9A6FE265A267E00ED17E8 /* FeedbackController.swift in Sources */,
-				7D59D0EB26BB89FA008EC5DD /* MiddlePracticeViewController.swift in Sources */,
+				7D59D0EB26BB89FA008EC5DD /* PracticeViewController.swift in Sources */,
 				7D89A97D2712A21300F5D4E3 /* Models.swift in Sources */,
 				7DE98D5D25E0332E00E333DD /* CameraViewController.swift in Sources */,
 				7D495FA126BC7274005A4E44 /* ServePlus.xcdatamodeld in Sources */,
@@ -450,12 +450,12 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXVariantGroup section */
-		7D59D0E926BB89FA008EC5DD /* MiddlePracticeViewController.swift */ = {
+		7D59D0E926BB89FA008EC5DD /* PracticeViewController.swift */ = {
 			isa = PBXVariantGroup;
 			children = (
 				7D59D0EA26BB89FA008EC5DD /* Base */,
 			);
-			name = MiddlePracticeViewController.swift;
+			name = PracticeViewController.swift;
 			sourceTree = "<group>";
 		};
 		7DE98D5E25E0332E00E333DD /* Main.storyboard */ = {
