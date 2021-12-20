@@ -612,8 +612,6 @@ class ServeAnalysisViewController: UIViewController {
                         // Increment the frame count
                         frameCount += 1
                     }
-
-
                 }
                 
                 
@@ -902,12 +900,12 @@ class ServeAnalysisViewController: UIViewController {
                     
                     // Construct histograms from the distance-related arrays
                     for array in preHistogramDistanceArrays {
-                        postHistogramArrays.append(self.com.histogram(array, 120, 0, Double(imgWidth)))
+                        postHistogramArrays.append(self.com.histogram(array, 120, 0.0, Double(imgWidth)))
                     }
                     
                     // Construct histograms from the coordinate-related arrays
                     for array in preHistogramCoordArrays {
-                        postHistogramArrays.append(self.com.histogram(array, 120, 0, Double(imgWidth)))
+                        postHistogramArrays.append(self.com.histogram(array, 120, 0.0, 1.0))
                     }
                     
                     
