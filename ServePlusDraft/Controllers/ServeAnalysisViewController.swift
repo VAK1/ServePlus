@@ -75,10 +75,6 @@ class ServeAnalysisViewController: UIViewController {
     let targetImageSize = CGSize(width: imgWidth, height: imgWidth)
     
     
-    // Boolean to keep track of when the detection finishes
-    var completedDetection: Bool = false
-    
-    
     /* Array to keep track of the starts and ends of each detected
        serve */
     var timestamp_frames : [[Int]] = []
@@ -313,7 +309,6 @@ class ServeAnalysisViewController: UIViewController {
             self.pt5ys.append(Double.nan)
             self.pt6ys.append(Double.nan)
             self.pt7ys.append(Double.nan)
-            completedDetection = true
             return
         }
         
@@ -474,10 +469,6 @@ class ServeAnalysisViewController: UIViewController {
         // Draw the connection onto the main image
         poseImage = com.superimposeImages(mainImage: mainImage, subImage: serveImage)
         
-        
-        // Finish detection
-        completedDetection = true
-        
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -558,10 +549,6 @@ class ServeAnalysisViewController: UIViewController {
         // Make sure the generator gives you a requested frame ASAP
         generator.requestedTimeToleranceAfter = CMTime.zero
         generator.requestedTimeToleranceBefore = CMTime.zero
-
-        
-        // Initialize a pixel buffer that will be used each frame
-        var buffer: CVPixelBuffer? = nil
         
         
         // Keep track of the number of frames and duration per frame
@@ -621,17 +608,6 @@ class ServeAnalysisViewController: UIViewController {
                             print("Error: Failed to detect serves.")
                             print(error)
                         }
-                        
-                        
-                        // Get the buffer with drawn poses when pose detection finishes
-                        while true {
-                            if self.completedDetection {
-                                buffer = self.com.getPixelBufferFromCGImage(cgImage: self.poseImage!.cgImage!)
-                                self.completedDetection = false
-                                break
-                            }
-                        }
-                        
                         
                         // Increment the frame count
                         frameCount += 1
