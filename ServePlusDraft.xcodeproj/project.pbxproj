@@ -213,15 +213,15 @@
 		7D5A5102270D5B6A00DCF1F8 /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
-				7D5A50FD270D30BD00DCF1F8 /* Onboarding */,
-				7D59D0E926BB89FA008EC5DD /* PracticeViewController.swift */,
 				7DE98D5C25E0332E00E333DD /* CameraViewController.swift */,
 				7D5817FF26BE153F00AB2010 /* ServeAnalysisViewController.swift */,
+				7D59D0E926BB89FA008EC5DD /* PracticeViewController.swift */,
 				7DA9A6FD265A267E00ED17E8 /* FeedbackController.swift */,
-				7D59D0F526BBAFD6008EC5DD /* TabBarController.swift */,
 				7DA9A6ED265A1A5B00ED17E8 /* DataViewController.swift */,
 				7D59D0F026BBA6FA008EC5DD /* GraphViewController.swift */,
+				7D59D0F526BBAFD6008EC5DD /* TabBarController.swift */,
 				7DA9A6E7265A1A3A00ED17E8 /* CustomPageViewController.swift */,
+				7D5A50FD270D30BD00DCF1F8 /* Onboarding */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
