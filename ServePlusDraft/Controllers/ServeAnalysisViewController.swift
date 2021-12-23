@@ -405,23 +405,7 @@ class ServeAnalysisViewController: UIViewController {
         self.lh_values.append(Double(humans[serverIndex][7].y))
         self.rh_values.append(Double(humans[serverIndex][4].y))
         
-        
-        // Normalize the pose so it's translation-invariant
-        let normalizedPose = com.normalizeServeFrame(humans[serverIndex])
-        
-        
-        // Initialize an ML Array to store the detected pose
-        guard let mlMultiArray = try? MLMultiArray(shape:[1,36], dataType:MLMultiArrayDataType.double) else {
-            fatalError("Unexpected runtime error. MLMultiArray")
-        }
-        
-        
-        // Store the pose in the ML Array
-        for (index, element) in normalizedPose.enumerated() {
-            mlMultiArray[index] = NSNumber(floatLiteral: element)
-        }
-        
-        
+
         // Fetch the keypoint connections
         let connections = com.getConnections(humans[serverIndex])
         
