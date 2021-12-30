@@ -692,7 +692,7 @@ class ServeAnalysisViewController: UIViewController {
                 
                 /* Create a repeating array of the input array to save in
                    the practice. A single url would suffice, but updating the
-                   app would inconvenience thos who already have the app by
+                   app would inconvenience those who already have the app by
                    invalidating all of their previous practices */
                 self.urlArray = Array(repeating: inputURL, count: self.timestamp_frames.count)
 
