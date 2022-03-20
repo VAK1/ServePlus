@@ -3,7 +3,7 @@
 ![splash](https://tennisevolution.com/wp-content/uploads/2020/04/Toss-on-the-slice-serve-scaled.jpg)
 
 Check it out on the [app store](apps.apple.com/us/app/serveplus/id1578581406)!
-Check out the [technical documentation](https://drive.google.com/file/d/14JGiOjxp19xZ0cLAyLddBhJQ5qOOyBoE/view?usp=sharing)
+Check out the [technical documentation](https://drive.google.com/file/d/14JGiOjxp19xZ0cLAyLddBhJQ5qOOyBoE/view?usp=sharing) here!
 
 ServePlus is an app that uses AI to help your tennis serve. Through pose detection and serve detection, improve your tennis serve on 8 feedback categories and graph your progress over time.
 
